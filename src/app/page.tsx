@@ -1,5 +1,12 @@
-import styles from "./page.module.css";
+// TESTING:
+"use client";
+import { signIn } from "next-auth/react";
 
 export default function Home() {
-  return <div className={styles.page}></div>;
+  return (
+    <div>
+      <h4>Not Logged In - Home Page Here </h4>
+      <button onClick={() => signIn()}> SIGN IN </button>
+    </div>
+  );
 }
