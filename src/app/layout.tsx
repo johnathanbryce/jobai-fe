@@ -4,7 +4,7 @@ import { StyledRoot } from "./theme/StyledRoot";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v15-appRouter";
 // NextAuth
 import { getServerSession } from "next-auth";
-import SessionProvider from "./components/SessionProvider";
+import SessionProvider from "./components/auth/SessionProvider";
 
 export const metadata: Metadata = {
   title: "Jobai",
