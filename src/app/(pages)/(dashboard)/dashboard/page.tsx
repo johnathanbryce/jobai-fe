@@ -1,16 +1,17 @@
-"use client";
-import React from "react";
+import { redirect } from "next/navigation";
+// Auth
+import { getServerSession } from "next-auth";
+// Components
+import DashboardClient from "../_components/DashboardClient";
 
-// TESTING:
-import { signOut, useSession } from "next-auth/react";
+const DashboardPage = async () => {
+  const session = await getServerSession();
 
-const DashboardPage = () => {
-  const { data: session } = useSession();
+  if (!session || !session.user) redirect("/");
+
   return (
     <div>
-      Dashboard
-      {session?.user?.name}
-      <button onClick={() => signOut({ callbackUrl: "/" })}> sign out </button>
+      {session.user ? <DashboardClient user={session.user} /> : <p>Error, user undefined.</p>}
     </div>
   );
 };
