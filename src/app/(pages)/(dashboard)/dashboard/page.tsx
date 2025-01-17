@@ -11,18 +11,6 @@ const DashboardPage = async () => {
 
   if (!session || !session.user) redirect("/");
 
-  console.log("Session Info:", session);
-
-  // TODO:
-  /*
-
-    1. Create API Route (Next.js): Handle sending the token to Django.
-    2. Test Token Transfer: Confirm Django receives the token.
-    3. Refactor: Move the API call logic to a utils folder for cleaner code.
-    4. Django Backend: Set up routes to handle and store the token securely.
-
-  */
-
   return (
     <div>
       {session.user ? (
