@@ -20,6 +20,17 @@ export const authOptions: NextAuthOptions = {
           scope: "openid email profile https://www.googleapis.com/auth/gmail.readonly",
         },
       },
+      profile(profile) {
+        // match database/backend structure for recording a user based on the profile object returned by NextAuth/Google OAuth
+        return {
+          id: profile.sub, // unique ID from google (google_id for django, currently noted as profile.sub)
+          name: profile.name,
+          email: profile.email,
+          image: profile.picture,
+          first_name: profile.given_name,
+          last_name: profile.family_name,
+        };
+      },
     }),
   ],
   // store session date in jwt rather than database
@@ -41,6 +52,8 @@ export const authOptions: NextAuthOptions = {
     // exposes the access token in the client-side session, enabling API req's to gmail
     async session({ session, token }: { session: Session; token: JWT }) {
       session.accessToken = token.accessToken;
+      session.user.id = token.sub!; // token.sub should already be set by NextAuth based on your provider's response.
+      // NOTE: session,user.id = token.sub is set by profile(profile) code above as profile.sub (the google_id for hte user)
       return session;
     },
   },
