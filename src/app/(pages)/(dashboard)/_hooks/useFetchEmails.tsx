@@ -1,5 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
+// Services
+import { fetchEmails } from "../_services/emailServices";
 
 interface Emails {
   subject: string;
@@ -16,39 +18,23 @@ const useFetchEmails = (accessToken: string | undefined, userEmail: string | nul
   useEffect(() => {
     if (!accessToken || !userEmail) return;
 
-    const fetchEmails = async () => {
+    const getEmails = async () => {
       try {
         setLoading(true);
-
-        const res = await fetch("http://localhost:8000/api/gmail/fetch-emails/", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${accessToken}`,
-          },
-          body: JSON.stringify({ email: userEmail }),
-        });
-
-        if (!res.ok) {
-          throw new Error(`Request failed with status ${res.status}`);
-        }
-
-        const data = await res.json();
+        const data = await fetchEmails(accessToken, userEmail);
         setEmails(data);
       } catch (err: unknown) {
         if (err instanceof Error) {
           setError(err.message);
-          console.error("Error fetching emails:", err);
         } else {
           setError("Unknown error occurred.");
-          console.error("Unknown error fetching emails:", err);
         }
       } finally {
         setLoading(false);
       }
     };
 
-    fetchEmails();
+    getEmails();
   }, [accessToken, userEmail]);
 
   return { emails, loading, error };
