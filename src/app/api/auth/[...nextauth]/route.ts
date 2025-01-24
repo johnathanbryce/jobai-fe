@@ -6,7 +6,7 @@ import { Session } from "next-auth";
 import { Account } from "next-auth";
 // sign-in url: http://localhost:3000/api/auth/signin
 
-export const authOptions: NextAuthOptions = {
+const authOptions: NextAuthOptions = {
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID ?? "",
