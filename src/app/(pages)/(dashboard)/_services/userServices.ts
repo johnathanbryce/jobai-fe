@@ -29,6 +29,4 @@ export const syncOAuthUser = async (
   if (!response.ok) {
     throw new Error(data.message || "Error syncing user.");
   }
-
-  console.log("User synced successfully:", data);
 };
