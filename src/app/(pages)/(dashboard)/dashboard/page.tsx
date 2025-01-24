@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 // Auth
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route"; // pass authOptions to getServerSession to ensure callbacks are being used
+import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions"; // pass authOptions to getServerSession to ensure callbacks are being used
 // Components
 import DashboardClient from "../_components/DashboardClient";
 
