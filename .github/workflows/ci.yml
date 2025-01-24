@@ -25,9 +25,8 @@ jobs:
       - name: Lint
         run: npm run lint
 
-      # TODO: implement tests
-      # - name: Run tests
-      #   run: npm run test
+      - name: Run tests
+        run: npm run test
 
       - name: Build
         run: npm run build
