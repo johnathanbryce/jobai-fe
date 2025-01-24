@@ -2,15 +2,12 @@
 import { useState, useEffect } from "react";
 // Services
 import { fetchEmails } from "../_services/emailServices";
-
-interface Emails {
-  subject: string;
-  body: string;
-}
+// Types
+import { Email } from "../_types/email-types";
 
 // exposes the Google OAuth accessToken via an API for consumption in backend
 const useFetchEmails = (accessToken: string | undefined, userEmail: string | null | undefined) => {
-  const [emails, setEmails] = useState<Emails[] | null>(null);
+  const [emails, setEmails] = useState<Email[] | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 

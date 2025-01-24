@@ -5,6 +5,8 @@ import useFetchEmails from "../_hooks/useFetchEmails";
 import useSyncOAuthUser from "../_hooks/useSyncOAuthUser";
 // Types
 import { AuthUser } from "@/app/types/user";
+// Components
+import EmailList from "./EmailList";
 
 export interface DashboardClientProps {
   user: AuthUser;
@@ -16,6 +18,18 @@ export default function DashboardClient({ user, accessToken }: DashboardClientPr
   const { emails, loading, error } = useFetchEmails(accessToken, user.email);
   console.log("emails", emails);
 
+  if (loading) {
+    return <div>Loading emails...</div>;
+  }
+
+  if (error) {
+    return <div>Error fetching emails: {error}</div>;
+  }
+
+  if (!emails || !Array.isArray(emails)) {
+    return <div>No emails found...</div>;
+  }
+
   return (
     <div>
       <h1>Dashboard</h1>
@@ -25,7 +39,7 @@ export default function DashboardClient({ user, accessToken }: DashboardClientPr
       <div>
         {loading && <p>Loading emails...</p>}
         {error && <p>Error fetching emails: {error}</p>}
-        {emails && emails.map((email, index) => <p key={index}>{email.subject}</p>)}
+        <EmailList emails={emails} />
       </div>
     </div>
   );
