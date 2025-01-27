@@ -21,8 +21,7 @@ const useFetchEmails = (accessToken: string | undefined, userEmail: string | nul
       try {
         setLoading(true);
         const data = await fetchEmails(accessToken, userEmail);
-
-        console.log("fetch emails data:", data);
+        console.log("Fetched data:", data);
 
         // Save fetched job postings to the backend
         if (Array.isArray(data) && data.length > 0) {
@@ -36,8 +35,6 @@ const useFetchEmails = (accessToken: string | undefined, userEmail: string | nul
             gmail_message_id: email.id,
             fetched_at: new Date().toISOString(),
           }));
-
-          console.log("job postings data save:", jobPostings);
 
           await saveJobPostings(jobPostings, userEmail); // Pass userEmail instead of userId
         }
