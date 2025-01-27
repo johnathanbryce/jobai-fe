@@ -27,7 +27,12 @@ export default function DashboardClient({ user, accessToken }: DashboardClientPr
   }
 
   if (!emails || !Array.isArray(emails)) {
-    return <div>No emails found...</div>;
+    return (
+      <div>
+        No emails found...
+        <button onClick={() => signOut({ callbackUrl: "/" })}>Sign out</button>
+      </div>
+    );
   }
 
   return (

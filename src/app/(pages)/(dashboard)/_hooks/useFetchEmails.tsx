@@ -1,7 +1,9 @@
+// _hooks/useFetchEmails.tsx
+
 "use client";
 import { useState, useEffect } from "react";
 // Services
-import { fetchEmails } from "../_services/emailServices";
+import { fetchEmails, saveJobPostings } from "../_services/emailServices";
 // Types
 import { Email } from "../_types/email-types";
 
@@ -13,12 +15,32 @@ const useFetchEmails = (accessToken: string | undefined, userEmail: string | nul
 
   // TODO: consider replacing with Tanstack Query useQuery( )
   useEffect(() => {
-    if (!accessToken || !userEmail) return;
+    if (!accessToken || !userEmail) return; // Ensure userEmail is available
 
     const getEmails = async () => {
       try {
         setLoading(true);
         const data = await fetchEmails(accessToken, userEmail);
+
+        console.log("fetch emails data:", data);
+
+        // Save fetched job postings to the backend
+        if (Array.isArray(data) && data.length > 0) {
+          const jobPostings = data.map((email) => ({
+            title: email.subject,
+            source: email.sender.includes("linkedin")
+              ? "LinkedIn"
+              : email.sender.includes("indeed")
+              ? "Indeed"
+              : "Unknown",
+            gmail_message_id: email.id,
+            fetched_at: new Date().toISOString(),
+          }));
+
+          console.log("job postings data save:", jobPostings);
+
+          await saveJobPostings(jobPostings, userEmail); // Pass userEmail instead of userId
+        }
         setEmails(data);
       } catch (err: unknown) {
         if (err instanceof Error) {
@@ -32,7 +54,7 @@ const useFetchEmails = (accessToken: string | undefined, userEmail: string | nul
     };
 
     getEmails();
-  }, [accessToken, userEmail]);
+  }, [accessToken, userEmail]); // Removed userId from dependencies
 
   return { emails, loading, error };
 };
