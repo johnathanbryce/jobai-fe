@@ -1,6 +1,6 @@
 export const fetchEmails = async (accessToken: string, userEmail: string) => {
-  //TODO: update URL to .env route
-  const res = await fetch("http://localhost:8000/api/gmail/fetch-emails/", {
+  const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000";
+  const res = await fetch(`${API_BASE_URL}/api/gmail/fetch-emails/`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -17,8 +17,6 @@ export const fetchEmails = async (accessToken: string, userEmail: string) => {
 
   return res.json();
 };
-
-// _services/emailServices.ts
 
 export const saveJobPostings = async (
   jobPostings: unknown[],

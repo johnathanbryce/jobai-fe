@@ -4,12 +4,13 @@ export const syncOAuthUser = async (
   user: AuthUser,
   accessToken: string | undefined
 ): Promise<void> => {
+  const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
+
   if (!accessToken) {
     throw new Error("Access token is undefined.");
   }
 
-  //TODO: update URL to .env route
-  const response = await fetch("http://localhost:8000/api/users/oauth-sync/", {
+  const response = await fetch(`${API_BASE_URL}/api/users/oauth-sync/`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
