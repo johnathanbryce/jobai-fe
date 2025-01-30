@@ -1,6 +1,6 @@
 export type Job = {
   title: string;
-  gmail_message_id: string;
+  gmail_message_id: string | number;
   source: string;
   fetched_at: string;
 };
@@ -16,7 +16,7 @@ export type JobPosting = {
   skills?: string | object; // Adjust based on how you handle JSON
   salary?: string | number;
   link?: string;
-  gmail_message_id?: string;
+  gmail_message_id: string;
   gmail_thread_id?: string;
   fetched_at: string; // ISO string format
   summary?: string;

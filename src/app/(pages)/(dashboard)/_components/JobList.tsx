@@ -12,12 +12,12 @@ const JobList = ({ jobs }: JobListProps) => {
   }
   return (
     <div>
-      {jobs.map((email: Job) => (
-        <div key={email.gmail_message_id}>
-          <h3>{email.title}</h3>
-          <p>{email.fetched_at}</p>
-          <small>From: {email.source}</small>
-          <button onClick={() => deleteJobPosting(email.gmail_message_id)}>delete job</button>
+      {jobs.map((job: Job) => (
+        <div key={job.gmail_message_id}>
+          <h3>{job.title}</h3>
+          <p>{job.fetched_at}</p>
+          <small>From: {job.source}</small>
+          <button onClick={() => deleteJobPosting(job.gmail_message_id)}>delete job</button>
         </div>
       ))}
     </div>

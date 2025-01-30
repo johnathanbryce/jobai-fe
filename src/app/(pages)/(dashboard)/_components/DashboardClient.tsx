@@ -49,6 +49,8 @@ export default function DashboardClient({ user, accessToken }: DashboardClientPr
     );
   }
 
+  console.log("jobPostings", jobPostings);
+
   return (
     <div>
       <h1>Dashboard</h1>
