@@ -1,8 +1,4 @@
-export type Job = {
-  title?: string;
-  description: string;
-  url?: string;
-};
+import { Job } from "./job-types";
 
 export type Email = {
   id: string | number;

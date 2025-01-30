@@ -1,15 +1,15 @@
-// _hooks/useFetchEmails.tsx
-
 "use client";
 import { useState, useEffect } from "react";
 // Services
 import { fetchEmails, saveJobPostings } from "../_services/emailServices";
-// Types
-import { Email } from "../_types/email-types";
 
 // exposes the Google OAuth accessToken via an API for consumption in backend
-const useFetchEmails = (accessToken: string | undefined, userEmail: string | null | undefined) => {
-  const [emails, setEmails] = useState<Email[] | null>(null);
+// fetches emails from users gmail account and sends to the backend
+// this is NOT used to display to the UI - this handles sending emails from Gmail -> Postgres db
+const useFetchAndSyncEmails = (
+  accessToken: string | undefined,
+  userEmail: string | null | undefined
+) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -21,7 +21,7 @@ const useFetchEmails = (accessToken: string | undefined, userEmail: string | nul
       try {
         setLoading(true);
         const data = await fetchEmails(accessToken, userEmail);
-        console.log("Fetched data:", data);
+        console.log("fetched emails from gmail:", data);
 
         // Save fetched job postings to the backend
         if (Array.isArray(data) && data.length > 0) {
@@ -36,9 +36,8 @@ const useFetchEmails = (accessToken: string | undefined, userEmail: string | nul
             fetched_at: new Date().toISOString(),
           }));
 
-          await saveJobPostings(jobPostings, userEmail); // Pass userEmail instead of userId
+          await saveJobPostings(jobPostings, userEmail); // NOTE: userEmail instead of userId (userId is different in FE (OAuth ID) vs. what is auto-generated in postgres db)
         }
-        setEmails(data);
       } catch (err: unknown) {
         if (err instanceof Error) {
           setError(err.message);
@@ -53,7 +52,7 @@ const useFetchEmails = (accessToken: string | undefined, userEmail: string | nul
     getEmails();
   }, [accessToken, userEmail]); // Removed userId from dependencies
 
-  return { emails, loading, error };
+  return { loading, error };
 };
 
-export default useFetchEmails;
+export default useFetchAndSyncEmails;
