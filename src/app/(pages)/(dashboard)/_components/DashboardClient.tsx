@@ -1,12 +1,13 @@
 "use client";
 import { signOut } from "next-auth/react";
 // Hooks
-import useFetchEmails from "../_hooks/useFetchEmails";
+import useFetchAndSyncEmails from "../_hooks/useFetchAndSyncEmails";
 import useSyncOAuthUser from "../_hooks/useSyncOAuthUser";
+import useFetchJobPostings from "../_hooks/useFetchJobPostings";
 // Types
 import { AuthUser } from "@/app/types/user";
 // Components
-import EmailList from "./EmailList";
+import JobList from "./JobList";
 
 export interface DashboardClientProps {
   user: AuthUser;
@@ -15,21 +16,34 @@ export interface DashboardClientProps {
 
 export default function DashboardClient({ user, accessToken }: DashboardClientProps) {
   useSyncOAuthUser(user, accessToken);
-  const { emails, loading, error } = useFetchEmails(accessToken, user.email);
-  console.log("emails", emails);
+  // Fetch and save emails to database
+  const { loading: emailsLoading, error: emailsError } = useFetchAndSyncEmails(
+    accessToken,
+    user.email
+  );
+  // Fetch job postings from backend that are not soft-deleted
+  const {
+    jobPostings,
+    loading: postingsLoading,
+    error: postingsError,
+  } = useFetchJobPostings(accessToken, user.email);
 
-  if (loading) {
-    return <div>Loading emails...</div>;
+  if (emailsLoading || postingsLoading) {
+    return <div>Loading...</div>;
   }
 
-  if (error) {
-    return <div>Error fetching emails: {error}</div>;
+  if (emailsError) {
+    return <div>Error fetching emails: {emailsError}</div>;
   }
 
-  if (!emails || !Array.isArray(emails)) {
+  if (postingsError) {
+    return <div>Error fetching job postings: {postingsError}</div>;
+  }
+
+  if (!jobPostings || !Array.isArray(jobPostings) || jobPostings.length === 0) {
     return (
       <div>
-        No emails found...
+        No job postings found...
         <button onClick={() => signOut({ callbackUrl: "/" })}>Sign out</button>
       </div>
     );
@@ -42,9 +56,9 @@ export default function DashboardClient({ user, accessToken }: DashboardClientPr
       <button onClick={() => signOut({ callbackUrl: "/" })}>Sign out</button>
 
       <div>
-        {loading && <p>Loading emails...</p>}
-        {error && <p>Error fetching emails: {error}</p>}
-        <EmailList emails={emails} />
+        {postingsLoading && <p>Loading job postings...</p>}
+        {postingsError && <p>Error fetching job postings: {postingsError}</p>}
+        <JobList jobs={jobPostings} />
       </div>
     </div>
   );

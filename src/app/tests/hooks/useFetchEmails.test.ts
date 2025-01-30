@@ -1,5 +1,5 @@
 import { renderHook, waitFor } from "@testing-library/react";
-import useFetchEmails from "@/app/(pages)/(dashboard)/_hooks/useFetchEmails";
+import useFetchEmails from "@/app/(pages)/(dashboard)/_hooks/useFetchAndSyncEmails";
 import { fetchEmails } from "@/app/(pages)/(dashboard)/_services/emailServices";
 
 // Mock fetchEmails
