@@ -27,16 +27,19 @@ describe("saveJobPostings", () => {
 
     await saveJobPostings(mockJobPostings, mockUserEmail);
 
-    expect(fetch).toHaveBeenCalledWith("http://localhost:8000/api/job-postings/save-job-postings", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        user_email: mockUserEmail,
-        job_postings: mockJobPostings,
-      }),
-    });
+    expect(fetch).toHaveBeenCalledWith(
+      "http://localhost:8000/api/job-postings/save-job-postings/",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          user_email: mockUserEmail,
+          job_postings: mockJobPostings,
+        }),
+      }
+    );
   });
 
   it("should log an error when the response is not ok", async () => {
