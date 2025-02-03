@@ -1,8 +1,8 @@
-import { Job } from "./job-types";
+import { JobPosting } from "./job-types";
 
 export type Email = {
   id: string | number;
-  jobs: Job[]; // TODO: adjust this when finalize the structure of jobs array
+  jobs: JobPosting[];
   sender: string;
   subject: string;
   snippet?: string;

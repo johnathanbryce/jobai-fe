@@ -94,7 +94,26 @@ export const saveJobPostings = async (
   }
 };
 
-export const deleteJobPosting = async (emailId: string | number) => {
+export const deleteJobPosting = async (jobUuid: string /* , accessToken: string */) => {
+  const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000";
+  const response = await fetch(`${API_BASE_URL}/api/job-postings/delete-job-posting/${jobUuid}/`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      /* Authorization: `Bearer ${accessToken}`, */
+    },
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.error || "Failed to delete job posting");
+  }
+
+  const data = await response.json();
+  return data;
+};
+
+/* export const deleteJobPosting = async (emailId: string | number) => {
   const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000";
   console.log(emailId);
   try {
@@ -114,3 +133,4 @@ export const deleteJobPosting = async (emailId: string | number) => {
     console.error("Error:", error);
   }
 };
+ */
