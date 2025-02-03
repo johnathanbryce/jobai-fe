@@ -5,9 +5,15 @@ import { fetchEmails, saveJobPostings } from "../_services/emailServices";
 // Types
 import { JobPosting } from "../_types/job-types";
 
-// exposes the Google OAuth accessToken via an API for consumption in backend
-// fetches emails from users gmail account and sends to the backend
-// this is NOT used to display to the UI - this handles sending emails from Gmail -> Postgres db
+/**
+ * Custom hook for fetching emails from a user's Gmail account, extracting job postings,
+ * and syncing them with a Postgres database in the backend. This hook does not provide
+ * any UI functionality; it simply handles data ingestion from Gmail to the backend.
+ *
+ * @param {string | undefined} accessToken - The Google OAuth access token.
+ * @param {string | null | undefined} userEmail - The user's email address.
+ * @returns {{ loading: boolean, error: string | null }} - An object containing the loading state and any encountered error.
+ */
 const useFetchAndSyncEmails = (
   accessToken: string | undefined,
   userEmail: string | null | undefined
@@ -22,9 +28,7 @@ const useFetchAndSyncEmails = (
       try {
         setLoading(true);
         const data = await fetchEmails(accessToken, userEmail);
-        // console.log("fetched emails from gmail:", data);
 
-        // Save fetched job postings to the backend
         if (Array.isArray(data) && data.length > 0) {
           // Extract individual jobs from all emails
           const jobPostings = data.flatMap((email) =>
@@ -63,7 +67,7 @@ const useFetchAndSyncEmails = (
               : []
           );
 
-          // Filter out any incomplete job postings if necessary
+          // Filter out any job postings that are incomplete
           const validJobPostings = jobPostings.filter((job) => job.title);
 
           // Save the valid job postings to the backend
