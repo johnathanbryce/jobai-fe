@@ -1,29 +1,28 @@
-export type Job = {
-  title: string;
-  gmail_message_id: string | number;
-  source: string;
-  fetched_at: string;
-};
-
 export type JobPosting = {
-  id: number;
-  user_id: number;
   title: string;
-  company_name?: string;
-  company_url?: string;
-  location?: string;
-  years_experience?: string | number;
-  skills?: string | object; // Adjust based on how you handle JSON
-  salary?: string | number;
-  link?: string;
+  company_name: string;
   gmail_message_id: string;
-  gmail_thread_id?: string;
-  fetched_at: string; // ISO string format
-  summary?: string;
-  score?: number;
+  job_uuid: string;
   source: string;
-  is_deleted: boolean;
-  deleted_at?: string | null; // ISO string format or null
-  created_at: string; // ISO string format
-  updated_at: string; // ISO string format
+  application_deadline?: string | null;
+  benefits?: string;
+  company_logo_url?: string;
+  company_url?: string;
+  created_at?: string;
+  date_posted?: string | null;
+  employment_type?: string;
+  experience_level?: string;
+  fetched_at?: string;
+  gmail_thread_id?: string;
+  industries?: string;
+  job_description_snippet?: string;
+  job_type?: string;
+  job_url?: string;
+  location?: string;
+  match_score?: number;
+  salary?: string;
+  skills?: string[];
+  status?: string;
+  summary?: string;
+  updated_at?: string;
 };
