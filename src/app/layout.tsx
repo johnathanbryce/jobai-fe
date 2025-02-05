@@ -6,6 +6,8 @@ import { AppRouterCacheProvider } from "@mui/material-nextjs/v15-appRouter";
 import { getServerSession } from "next-auth";
 import SessionProvider from "./components/auth/SessionProvider";
 
+import WaveBackground from "./components/WaveBackground";
+
 export const metadata: Metadata = {
   title: "Jobai",
   description: "",
@@ -20,6 +22,7 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body /* className={`${geistSans.variable} ${geistMono.variable}`} */>
+        <WaveBackground />
         <SessionProvider session={session}>
           <AppRouterCacheProvider>
             <StyledRoot>
