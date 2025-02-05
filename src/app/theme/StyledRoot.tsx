@@ -1,5 +1,6 @@
 "use client";
 import { ThemeProvider } from "@mui/material/styles";
+import { CssBaseline } from "@mui/material";
 import theme from "./theme";
 
 export function StyledRoot({
@@ -7,5 +8,10 @@ export function StyledRoot({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return <ThemeProvider theme={theme}>{children}</ThemeProvider>;
+  return (
+    <ThemeProvider theme={theme}>
+      <CssBaseline /> {/* CSS reset + Global Theme Styles */}
+      {children}
+    </ThemeProvider>
+  );
 }
