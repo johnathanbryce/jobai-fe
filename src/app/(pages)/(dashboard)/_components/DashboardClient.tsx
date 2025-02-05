@@ -7,7 +7,9 @@ import useFetchJobPostings from "../_hooks/useFetchJobPostings";
 // Types
 import { AuthUser } from "@/app/types/user";
 // Components
-import JobList from "./JobList";
+import JobPostingList from "./JobPostings/JobPostingList";
+
+import Button from "@mui/material/Button";
 
 export interface DashboardClientProps {
   user: AuthUser;
@@ -49,18 +51,18 @@ export default function DashboardClient({ user, accessToken }: DashboardClientPr
     );
   }
 
-  console.log("jobPostings", jobPostings);
-
   return (
     <div>
       <h1>Dashboard</h1>
       <p>Welcome, {user?.name}</p>
-      <button onClick={() => signOut({ callbackUrl: "/" })}>Sign out</button>
+      <Button variant="contained" color="button" onClick={() => signOut({ callbackUrl: "/" })}>
+        Sign out
+      </Button>
 
       <div>
         {postingsLoading && <p>Loading job postings...</p>}
         {postingsError && <p>Error fetching job postings: {postingsError}</p>}
-        <JobList jobs={jobPostings} />
+        <JobPostingList jobs={jobPostings} />
       </div>
     </div>
   );

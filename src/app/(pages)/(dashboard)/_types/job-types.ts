@@ -17,7 +17,7 @@ export type JobPosting = {
   industries?: string;
   job_description_snippet?: string;
   job_type?: string;
-  job_url?: string;
+  job_url: string;
   location?: string;
   match_score?: number;
   salary?: string;
