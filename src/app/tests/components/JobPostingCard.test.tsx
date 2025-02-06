@@ -10,7 +10,7 @@ describe("JobPostingCard", () => {
       title: "Software Engineer",
       url: "http://example.com/job",
       experienceLevel: "Junior",
-      location: "Remote",
+      location: "In Person",
       salary: "$80,000 - $100,000",
       jobDescriptionSnippet: "Exciting role for new engineers.",
       jobType: "Full-time",
@@ -23,8 +23,8 @@ describe("JobPostingCard", () => {
     const jobLink = screen.getByRole("link", { name: /Software Engineer/i });
     expect(jobLink).toHaveAttribute("href", "http://example.com/job");
 
-    expect(screen.getByText("Remote")).toBeInTheDocument();
-    expect(screen.getByText("$80,000 - $100,000")).toBeInTheDocument();
+    expect(screen.getByText(/In Person/i)).toBeInTheDocument();
+    expect(screen.getByText(/\$80,\s*000\s*-\s*\$100,\s*000/i)).toBeInTheDocument();
     expect(screen.getByText("Exciting role for new engineers.")).toBeInTheDocument();
 
     expect(screen.getByRole("button", { name: /analyze/i })).toBeInTheDocument();

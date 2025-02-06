@@ -11,12 +11,22 @@ const Label = ({ title, colour }: LabelProps) => {
   return (
     <Box
       sx={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
         borderRadius: 1,
-        padding: 1,
+        p: { xs: 0.5, sm: 0.5, md: 0.75 },
         bgcolor: colour,
       }}
     >
-      <Typography variant="body1" color="text.primary" sx={{ fontWeight: "bold" }}>
+      <Typography
+        variant="body2"
+        color="text.primary"
+        sx={{
+          fontWeight: "bold",
+          fontSize: { xs: "0.75rem", sm: "0.8rem", md: "0.775rem" },
+        }}
+      >
         {title}
       </Typography>
     </Box>

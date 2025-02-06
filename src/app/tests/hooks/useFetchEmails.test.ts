@@ -1,10 +1,13 @@
 import { renderHook, waitFor } from "@testing-library/react";
 import useFetchAndSyncEmails from "@/app/(pages)/(dashboard)/_hooks/useFetchAndSyncEmails";
-import { fetchEmails, saveJobPostings } from "@/app/(pages)/(dashboard)/_services/emailServices";
+import {
+  fetchEmails,
+  saveJobPostingsFromEmails,
+} from "@/app/(pages)/(dashboard)/_services/emailServices";
 
 jest.mock("@/app/(pages)/(dashboard)/_services/emailServices", () => ({
   fetchEmails: jest.fn(),
-  saveJobPostings: jest.fn(),
+  saveJobPostingsFromEmails: jest.fn(),
 }));
 
 beforeAll(() => {
@@ -48,7 +51,7 @@ describe("useFetchAndSyncEmails Hook", () => {
     ];
 
     (fetchEmails as jest.Mock).mockResolvedValue(mockEmails);
-    (saveJobPostings as jest.Mock).mockResolvedValue(undefined);
+    (saveJobPostingsFromEmails as jest.Mock).mockResolvedValue(undefined);
 
     const { result } = renderHook(() => useFetchAndSyncEmails("fake-token", "test@example.com"));
 
@@ -120,7 +123,7 @@ describe("useFetchAndSyncEmails Hook", () => {
     ];
 
     // Check that the postings were saved correctly
-    expect(saveJobPostings).toHaveBeenCalledWith(expectedJobPostings, "test@example.com");
+    expect(saveJobPostingsFromEmails).toHaveBeenCalledWith(expectedJobPostings, "test@example.com");
   });
 
   it("should handle fetchEmails failure", async () => {
@@ -142,7 +145,7 @@ describe("useFetchAndSyncEmails Hook", () => {
     expect(fetchEmails).toHaveBeenCalledWith("fake-token", "test@example.com");
 
     // saveJobPostings should not be called on fetch error
-    expect(saveJobPostings).not.toHaveBeenCalled();
+    expect(saveJobPostingsFromEmails).not.toHaveBeenCalled();
   });
 
   it("should handle saveJobPostings failure", async () => {
@@ -155,7 +158,9 @@ describe("useFetchAndSyncEmails Hook", () => {
       },
     ];
     (fetchEmails as jest.Mock).mockResolvedValue(mockEmails);
-    (saveJobPostings as jest.Mock).mockRejectedValue(new Error("Failed to save job postings"));
+    (saveJobPostingsFromEmails as jest.Mock).mockRejectedValue(
+      new Error("Failed to save job postings")
+    );
 
     const { result } = renderHook(() => useFetchAndSyncEmails("fake-token", "test@example.com"));
 
@@ -170,6 +175,6 @@ describe("useFetchAndSyncEmails Hook", () => {
     expect(fetchEmails).toHaveBeenCalledWith("fake-token", "test@example.com");
 
     // saveJobPostings should have been called but throws
-    expect(saveJobPostings).toHaveBeenCalled();
+    expect(saveJobPostingsFromEmails).toHaveBeenCalled();
   });
 });

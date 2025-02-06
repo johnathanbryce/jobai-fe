@@ -1,5 +1,12 @@
 import { JobPosting } from "../_types/job-types";
 
+/**
+ * The initial fetch of recent job-posting emails from a users Gmail directly.
+ * @param accessToken - The OAuth access token for authentication.
+ * @param userEmail - The email of the user whose job postings are to be fetched.
+ *
+ * Sends email data to our Django backend to handle and save in our Postgres db
+ */
 export const fetchEmails = async (accessToken: string, userEmail: string) => {
   const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000";
   const res = await fetch(`${API_BASE_URL}/api/gmail/fetch-emails/`, {
@@ -60,7 +67,15 @@ export const getJobPostings = async (
   return data.job_postings as JobPosting[];
 };
 
-export const saveJobPostings = async (
+/**
+ * Saves an array of job postings to the backend for the specified user.
+ *
+ * @param jobPostings - An array containing job posting data.
+ * @param userEmail - The user's email address.
+ * @returns A promise that resolves when the save operation completes.
+ *
+ */
+export const saveJobPostingsFromEmails = async (
   jobPostings: unknown[],
   userEmail: string | null | undefined
 ) => {
@@ -93,44 +108,3 @@ export const saveJobPostings = async (
     console.error("Error:", error);
   }
 };
-
-export const deleteJobPosting = async (jobUuid: string /* , accessToken: string */) => {
-  const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000";
-  const response = await fetch(`${API_BASE_URL}/api/job-postings/delete-job-posting/${jobUuid}/`, {
-    method: "DELETE",
-    headers: {
-      "Content-Type": "application/json",
-      /* Authorization: `Bearer ${accessToken}`, */
-    },
-  });
-
-  if (!response.ok) {
-    const errorData = await response.json();
-    throw new Error(errorData.error || "Failed to delete job posting");
-  }
-
-  const data = await response.json();
-  return data;
-};
-
-/* export const deleteJobPosting = async (emailId: string | number) => {
-  const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000";
-  console.log(emailId);
-  try {
-    const res = await fetch(`${API_BASE_URL}/api/job-postings/${emailId}/`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
-    if (!res.ok) {
-      throw new Error(`Failed to delete job posting: ${res.statusText}`);
-    }
-
-    console.log("Job posting deleted successfully!");
-  } catch (error) {
-    console.error("Error:", error);
-  }
-};
- */

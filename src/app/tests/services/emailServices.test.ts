@@ -1,4 +1,4 @@
-import { saveJobPostings } from "@/app/(pages)/(dashboard)/_services/emailServices";
+import { saveJobPostingsFromEmails } from "@/app/(pages)/(dashboard)/_services/emailServices";
 
 // Mock the fetch API
 global.fetch = jest.fn();
@@ -25,7 +25,7 @@ describe("saveJobPostings", () => {
       json: jest.fn().mockResolvedValue({}),
     });
 
-    await saveJobPostings(mockJobPostings, mockUserEmail);
+    await saveJobPostingsFromEmails(mockJobPostings, mockUserEmail);
 
     expect(fetch).toHaveBeenCalledWith(
       "http://localhost:8000/api/job-postings/save-job-postings/",
@@ -51,7 +51,7 @@ describe("saveJobPostings", () => {
 
     const consoleErrorSpy = jest.spyOn(console, "error").mockImplementation(() => {});
 
-    await saveJobPostings(mockJobPostings, mockUserEmail);
+    await saveJobPostingsFromEmails(mockJobPostings, mockUserEmail);
 
     expect(consoleErrorSpy).toHaveBeenCalledWith("Error saving job postings:", "Some error");
 
@@ -64,7 +64,7 @@ describe("saveJobPostings", () => {
 
     const consoleErrorSpy = jest.spyOn(console, "error").mockImplementation(() => {});
 
-    await saveJobPostings(mockJobPostings, mockUserEmail);
+    await saveJobPostingsFromEmails(mockJobPostings, mockUserEmail);
 
     expect(consoleErrorSpy).toHaveBeenCalledWith("Error:", new Error("Network error"));
 

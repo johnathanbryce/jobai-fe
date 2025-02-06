@@ -1,8 +1,10 @@
 import { useState } from "react";
 // Services
-import { deleteJobPosting } from "../../_services/emailServices";
+import { deleteJobPosting, saveJobPosting } from "./_services/jobPostingService";
 // Components
 import Label from "./Label";
+// Utils
+import { getLabelColors } from "../../_utils/getLabelColor";
 // MUI
 import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
@@ -46,8 +48,8 @@ const JobPostingCard = ({
 
   const [saved, setSaved] = useState(false);
 
-  const handleSaveJob = () => {
-    console.log("job saved ");
+  const handleSaveJob = (id: string) => {
+    saveJobPosting(id);
     setSaved(!saved);
   };
 
@@ -61,23 +63,46 @@ const JobPostingCard = ({
     >
       <Card variant="outlined" key={id}>
         <CardHeader
+          sx={{
+            "& .MuiCardHeader-subheader": {
+              marginTop: 0.5,
+            },
+          }}
           title={
-            <Grid container>
+            <Grid container spacing={4}>
               <Grid>
                 <a href={url} target="_blank" style={{ textDecoration: "none", color: "inherit" }}>
                   {title}
                 </a>
 
-                <IconButton onClick={handleSaveJob} color="secondary">
-                  {saved ? <BookmarkIcon /> : <BookmarkBorderIcon />}
+                <IconButton onClick={() => handleSaveJob(id)} color="secondary">
+                  {saved ? (
+                    <BookmarkIcon sx={{ fontSize: 18 }} />
+                  ) : (
+                    <BookmarkBorderIcon sx={{ fontSize: 18 }} />
+                  )}
                 </IconButton>
               </Grid>
-
-              <Grid container spacing={2}>
-                {experienceLevel && experienceLevel !== "Unknown" ? (
-                  <Label title={experienceLevel} colour="red" />
-                ) : null}
-                {jobType && <Label title={jobType} colour="blue" />}
+            </Grid>
+          }
+          subheader={
+            <Grid container spacing={2} alignItems="center">
+              <Grid>
+                <Typography variant="body2" color="text.secondary">
+                  {location} {salary}
+                </Typography>
+              </Grid>
+              <Grid container>
+                {experienceLevel && experienceLevel !== "Unknown" && (
+                  <Grid>
+                    <Label title={experienceLevel} colour={getLabelColors(experienceLevel)} />
+                  </Grid>
+                )}
+                {jobType && (
+                  <Grid>
+                    <Label title={jobType} colour={getLabelColors(jobType)} />
+                  </Grid>
+                )}
               </Grid>
             </Grid>
           }
@@ -86,8 +111,6 @@ const JobPostingCard = ({
         <CardContent>
           <Grid container>
             <Grid container spacing={2} size={8}>
-              <Typography>{location}</Typography>
-              <Typography>{salary}</Typography>
               <Typography>{jobDescriptionSnippet}</Typography>
             </Grid>
 
