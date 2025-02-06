@@ -4,11 +4,11 @@ import { JobPosting } from "../../_types/job-types";
 // MUI
 import Grid from "@mui/material/Grid2";
 
-interface JobListProps {
+interface JobPostingListProps {
   jobs: JobPosting[];
 }
 
-const JobPostingList = ({ jobs }: JobListProps) => {
+const JobPostingList = ({ jobs }: JobPostingListProps) => {
   if (!jobs || !jobs.length) {
     return <div>Loading jobs...</div>;
   }
@@ -22,7 +22,7 @@ const JobPostingList = ({ jobs }: JobListProps) => {
             url={job.job_url}
             experienceLevel={job.experience_level}
             location={job.location}
-            salary={job.salary}
+            salary={job.salary === "N/A" ? undefined : job.salary}
             jobDescriptionSnippet={job.job_description_snippet}
             jobType={job.job_type}
           />

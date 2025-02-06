@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 // Services
-import { fetchEmails, saveJobPostings } from "../_services/emailServices";
+import { fetchEmails, saveJobPostingsFromEmails } from "../_services/emailServices";
 // Types
 import { JobPosting } from "../_types/job-types";
 
@@ -72,7 +72,7 @@ const useFetchAndSyncEmails = (
 
           // Save the valid job postings to the backend
           if (validJobPostings.length > 0) {
-            await saveJobPostings(validJobPostings, userEmail);
+            await saveJobPostingsFromEmails(validJobPostings, userEmail);
           }
         }
       } catch (err: unknown) {
