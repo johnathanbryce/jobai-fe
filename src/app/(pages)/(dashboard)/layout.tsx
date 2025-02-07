@@ -1,8 +1,10 @@
 "use client";
+// MUI
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import { styled } from "@mui/material/styles";
-import React from "react";
+// Components
+import DashboardHeader from "../layout/header/DashboardHeader";
 /* import Header from "../layout/header/Header";
 import ErrorFallback from "./_components/ErrorFallback"; */
 // External Libraries
@@ -31,7 +33,7 @@ const PageWrapper = styled("div")(() => ({
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   return (
     <MainWrapper>
-      {/* <Header /> */}
+      <DashboardHeader />
       <PageWrapper>
         <Container>
           <Box
