@@ -4,7 +4,7 @@ import { deleteJobPosting, saveJobPosting } from "./_services/jobPostingService"
 // Components
 import Label from "./Label";
 // Utils
-import { getLabelColors } from "../../_utils/getLabelColor";
+import { getLabelColors } from "./_utils/getLabelColor";
 // MUI
 import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";

@@ -17,6 +17,9 @@ export const getLabelColors = (label: string) => {
     case "in person":
       colour = "#FF8F00"; // Dark Amber
       break;
+    case "on-site":
+      colour = "#FF8F00"; // Dark Amber
+      break;
     case "hybrid remote":
       colour = "#00796B"; // Deep Teal
       break;
